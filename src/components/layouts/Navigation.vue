@@ -1,7 +1,7 @@
 <template>
     <v-navigation-drawer fixed clipped app v-model="navOpen">
         <v-list dense>
-            <v-list-tile @click="go('/')">
+            <v-list-tile @click="go('/')" ripple>
                 <v-list-tile-action>
                     <v-icon>home</v-icon>
                 </v-list-tile-action>
@@ -9,7 +9,7 @@
                     <v-list-tile-title>Home</v-list-tile-title>
                 </v-list-tile-content>
             </v-list-tile>
-            <v-list-tile @click="go('/customer')">
+            <v-list-tile @click="go('/customer')" ripple>
                 <v-list-tile-action>
                     <v-icon>people</v-icon>
                 </v-list-tile-action>
@@ -17,7 +17,7 @@
                     <v-list-tile-title>Customers</v-list-tile-title>
                 </v-list-tile-content>
             </v-list-tile>
-            <v-list-tile @click="go('/goodsList')">
+            <v-list-tile ripple @click="go('/')">
                 <v-list-tile-action>
                     <v-icon>format_list_bulleted</v-icon>
                 </v-list-tile-action>
