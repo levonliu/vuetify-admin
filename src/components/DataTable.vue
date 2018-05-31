@@ -29,7 +29,7 @@
                     <tr>
                         <td  v-for="(field) in dataList.headers" :key="field.text" v-html="renderField(props.item, field)"></td>
                         <td class="justify-center layout px-0" v-if="isOperate">
-                            <v-btn icon class="mx-6">
+                            <v-btn icon class="mx-6" @click="edit(props.item)">
                                 <v-icon color="teal">edit</v-icon>
                             </v-btn>
                             <v-btn icon class="mx-6">
@@ -65,9 +65,10 @@
     export default {
         name: "DataTable",
         props:{
-            search   : { type: String },
-            dataList : { type: Object },
-            isOperate: { type: Boolean }
+            search      : { type: String },
+            dataList    : { type: Object },
+            isOperate   : { type: Boolean },
+            editPathName: { type: String }
         },
         data:() => ({
             pagination: {
@@ -90,6 +91,10 @@
                     this.pagination.descending = false
                 }
             },
+            edit(data){
+                let editPathName = this.editPathName;
+                this.$router.push({name:editPathName,params:data});
+            }
         },
         computed:{
             pages() {

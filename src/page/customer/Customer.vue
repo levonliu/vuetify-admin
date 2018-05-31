@@ -19,7 +19,7 @@
             </v-card-title>
         </v-flex>
         <v-flex xs12>
-            <dataTable :search="search" :dataList="dataList" :isOperate="true">
+            <dataTable :search="search" :dataList="dataList" :isOperate="true" editPathName="customer_eidt">
             </dataTable>
         </v-flex>
     </v-layout>
