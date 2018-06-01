@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Index from '../page/Index'
 import Customer from '../page/customer/Customer'
+import CustomerEdit from '../page/customer/edit'
 
 Vue.use(Router);
 
@@ -20,7 +21,7 @@ export default new Router({
                 {
                     path     : 'customer_edit',
                     name     : 'customer_edit',
-                    component: Index,
+                    component: CustomerEdit,
                 }
             ]
         }

@@ -27,7 +27,7 @@
                 </template>
                 <template slot="items" slot-scope="props">
                     <tr>
-                        <td  v-for="(field) in dataList.headers" :key="field.text" v-html="renderField(props.item, field)"></td>
+                        <td v-for="(field) in dataList.headers" :key="field.text" v-html="renderField(props.item, field)"></td>
                         <td class="justify-center layout px-0" v-if="isOperate">
                             <v-btn icon class="mx-6" @click="edit(props.item)">
                                 <v-icon color="teal">edit</v-icon>
@@ -63,40 +63,42 @@
 
 <script>
     export default {
-        name: "DataTable",
-        props:{
+        name    : "DataTable",
+        props   : {
             search      : { type: String },
             dataList    : { type: Object },
             isOperate   : { type: Boolean },
             editPathName: { type: String }
         },
-        data:() => ({
+        data    : () => ({
             pagination: {
-                sortBy: 'id',
+                sortBy     : 'id',
                 rowsPerPage: 5,
             },
-            pageSizes: [1,2,5,10],
+            pageSizes : [ 1, 2, 5, 10 ],
             pageSize  : 5,
         }),
-        methods:{
-            renderField(item,field){
-                let value = item[field.value];
+        methods : {
+            renderField( item, field ) {
+                let value = item[ field.value ];
                 return value;
             },
-            changeSort (column) {
-                if (this.pagination.sortBy === column) {
+            changeSort( column ) {
+                if ( this.pagination.sortBy === column ) {
                     this.pagination.descending = !this.pagination.descending
                 } else {
-                    this.pagination.sortBy = column;
+                    this.pagination.sortBy     = column;
                     this.pagination.descending = false
                 }
             },
-            edit(data){
+            edit( data ) {
                 let editPathName = this.editPathName;
-                this.$router.push({name:editPathName,params:data});
+                // alert(editPathName);
+                // alert(data);
+                this.$router.push( { name: editPathName, params: data } );
             }
         },
-        computed:{
+        computed: {
             pages() {
                 if ( this.pagination.rowsPerPage == null || this.pagination.totalItems == null ) {
                     return 0;
@@ -119,10 +121,10 @@
             },
 
         },
-        created(){
-            this.dataList.data.forEach(function ( value,index ) {
-                value['index'] = index+1;
-            });
+        created() {
+            this.dataList.data.forEach( function ( value, index ) {
+                value[ 'index' ] = index + 1;
+            } );
         },
     }
 </script>
