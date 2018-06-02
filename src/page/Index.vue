@@ -30,11 +30,11 @@
 </script>
 
 <style scoped>
-    .fade-enter-active {
+    .fade-enter-active{
         transition: all .5s ease;
     }
-    .fade-enter {
-        transform: translateX(50px);
+    .fade-enter, .fade-leave-to {
+        transform: translateY(-50px);
         opacity: 0;
     }
 </style>

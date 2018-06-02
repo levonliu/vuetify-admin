@@ -7,6 +7,7 @@ import CustomerEdit from '../page/customer/edit'
 Vue.use(Router);
 
 export default new Router({
+    mode:'history',
     routes:[
         {
             path     : '/',

@@ -4,33 +4,45 @@
             <v-flex xs6>
                 <v-text-field
                         v-model="name"
+                        label="姓名"
                         :rules="nameRules"
                         :counter="10"
                         required
-                        single-line
                         prepend-icon="account_circle"
                 ></v-text-field>
-                <v-flex xs4>
-                <v-radio-group v-model="radios" :mandatory="false" row prepend-icon="wc">
-                    <v-radio label="男" value="1"></v-radio>
-                    <v-radio label="女" value="2"></v-radio>
-                </v-radio-group>
-                </v-flex>
+
                 <v-text-field
-                        single-line
+                        label="电话"
+                        required
                         prepend-icon="phone"
                 ></v-text-field>
                 <v-select
+                        label="住址"
                         v-model="select"
                         :items="items"
                         :rules="[v => !!v || 'Item is required']"
                         required
                         prepend-icon="location_on"
                 ></v-select>
-                <v-btn :disabled="!valid" @click="submit">
-                    submit
+                <v-flex xs4>
+                    <v-radio-group v-model="radios" :mandatory="false" row prepend-icon="wc">
+                        <v-radio label="男" value="1"></v-radio>
+                        <v-radio label="女" value="2"></v-radio>
+                    </v-radio-group>
+                </v-flex>
+                <v-flex xs4>
+                    <v-radio-group v-model="group_radios" :mandatory="false" row prepend-icon="group">
+                        <v-radio label="A" value="1"></v-radio>
+                        <v-radio label="B" value="2"></v-radio>
+                    </v-radio-group>
+                </v-flex>
+                <v-btn color="cyan darken-2" dark>
+                    <v-icon dark left>arrow_back</v-icon>Back
                 </v-btn>
-                <v-btn @click="clear">clear</v-btn>
+                <v-btn :disabled="!valid" @click="submit" color="primary" dark>
+                    submit
+                    <v-icon dark right>send</v-icon>
+                </v-btn>
             </v-flex>
         </v-layout>
     </v-container>
@@ -51,7 +63,8 @@
                 'a',
                 'b',
             ],
-            radios: "1"
+            radios: "1",
+            group_radios:'1'
         }),
 
         methods: {
