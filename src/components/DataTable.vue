@@ -38,6 +38,15 @@
                         </td>
                     </tr>
                 </template>
+                <template slot="no-results">
+                    <tr>
+                        <td :colspan="tdNum">
+                            <v-alert :value="true" color="error" icon="warning">
+                                Sorry, nothing to display here :(
+                            </v-alert>
+                        </td>
+                    </tr>
+                </template>
             </v-data-table>
         </v-flex>
         <v-layout>
@@ -113,6 +122,11 @@
                 let pageTo = this.pagination.page * this.pagination.rowsPerPage;
                 return pageTo;
             },
+            tdNum(){
+                let num = this.dataList.headers.length;
+                num     = this.isOperate ? num += 1 : num;
+                return num;
+            }
         },
         watch   : {
             pageSize( val ) {
