@@ -17,13 +17,12 @@
         <v-speed-dial right="right" direction="left" transition="scale-transition">
             <v-btn slot="activator" color="blue darken-2" dark fab hover>
                 <v-icon>account_circle</v-icon>
-                <v-icon>close</v-icon>
             </v-btn>
             <v-tooltip bottom>
                 <v-btn fab dark small color="green" slot="activator">
-                    <v-icon>edit</v-icon>
+                    <v-icon>lock</v-icon>
                 </v-btn>
-                <span>编辑</span>
+                <span>修改密码</span>
             </v-tooltip>
             <v-tooltip bottom>
                 <v-btn fab dark small color="red" @click="logout" slot="activator">

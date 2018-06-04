@@ -37,10 +37,11 @@
                     </v-radio-group>
                 </v-flex>
                 <v-btn color="cyan darken-2" dark @click="back">
-                    <v-icon dark left>arrow_back</v-icon>Back
+                    <v-icon dark left>arrow_back</v-icon>
+                    返回
                 </v-btn>
                 <v-btn :disabled="!valid" @click="submit" color="primary" dark>
-                    submit
+                    提交
                     <v-icon dark right>send</v-icon>
                 </v-btn>
             </v-flex>
