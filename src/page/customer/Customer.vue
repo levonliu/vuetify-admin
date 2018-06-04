@@ -2,11 +2,31 @@
     <v-layout row wrap>
         <v-flex xs12>
             <v-card-title>
-                <v-flex xs8>
-                    <v-btn fab dark color="indigo">
-                        <v-icon dark>add</v-icon>
+                <v-speed-dial right="right" direction="right"  transition="slide-x-transition" v-model="fab">
+                    <v-btn slot="activator" v-model="fab" color="blue darken-2" dark fab >
+                        <v-icon>edit</v-icon>
+                        <v-icon>close</v-icon>
                     </v-btn>
-                </v-flex>
+                    <v-tooltip top>
+                        <v-btn fab dark small color="green" slot="activator">
+                            <v-icon>add</v-icon>
+                        </v-btn>
+                        <span>新增</span>
+                    </v-tooltip>
+                    <v-tooltip top>
+                        <v-btn fab dark small color="blue-grey" slot="activator">
+                            <v-icon>cloud_upload</v-icon>
+                        </v-btn>
+                        <span>上传</span>
+                    </v-tooltip>
+                    <v-tooltip top>
+                        <v-btn fab dark small color="yellow darken-3" slot="activator">
+                            <v-icon>cloud_download</v-icon>
+                        </v-btn>
+                        <span>下载</span>
+                    </v-tooltip>
+                </v-speed-dial>
+                <v-spacer></v-spacer>
                 <v-flex xs4>
                     <v-text-field
                             append-icon="search"
@@ -16,7 +36,7 @@
                             v-model="search"
                     ></v-text-field>
                 </v-flex>
-            </v-card-title>
+        </v-card-title>
         </v-flex>
         <v-flex xs12>
             <dataTable :search="search" :dataList="dataList" :isOperate="true" editPathName="customer_edit">
@@ -34,6 +54,7 @@
 
         },
         data:()=>({
+            fab: false,
             search:'',
             dataList:{
                 headers: [
@@ -87,5 +108,11 @@
 </script>
 
 <style scoped>
+    #create .speed-dial {
+        position: absolute;
+    }
 
+    #create .btn--floating {
+        position: relative;
+    }
 </style>

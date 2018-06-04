@@ -2,17 +2,35 @@
     <v-toolbar color="indigo" dark fixed app clipped-left>
         <v-toolbar-side-icon @click.stop="navOpen = !navOpen"></v-toolbar-side-icon>
         <v-toolbar-title>Admin</v-toolbar-title>
-        <v-speed-dial :right="right" :direction="direction" :open-on-hover="hover" :transition="transition">
+        <v-spacer></v-spacer>
+        <v-snackbar
+                :timeout="snackBar.time"
+                :color="snackBar.color"
+                v-model="snackBar.status"
+                top="top"
+                style="position: relative"
+        >
+            {{snackBar.msg}}
+            <v-btn dark flat @click.native="snackBar.status = !snackBar.status">Close</v-btn>
+        </v-snackbar>
+        <v-spacer></v-spacer>
+        <v-speed-dial right="right" direction="left" transition="scale-transition">
             <v-btn slot="activator" color="blue darken-2" dark fab hover>
                 <v-icon>account_circle</v-icon>
                 <v-icon>close</v-icon>
             </v-btn>
-            <v-btn fab dark small color="green">
-                <v-icon>edit</v-icon>
-            </v-btn>
-            <v-btn fab dark small color="red" @click="logout">
-                <v-icon>keyboard_backspace</v-icon>
-            </v-btn>
+            <v-tooltip bottom>
+                <v-btn fab dark small color="green" slot="activator">
+                    <v-icon>edit</v-icon>
+                </v-btn>
+                <span>编辑</span>
+            </v-tooltip>
+            <v-tooltip bottom>
+                <v-btn fab dark small color="red" @click="logout" slot="activator">
+                    <v-icon>keyboard_backspace</v-icon>
+                </v-btn>
+                <span>登出</span>
+            </v-tooltip>
         </v-speed-dial>
     </v-toolbar>
 </template>
@@ -22,14 +40,11 @@
 
     export default {
         data    : () => ({
-            direction : 'left',
-            right     : true,
-            hover     : false,
-            transition: 'scale-transition'
         }),
         computed: {
             ...mapGetters({
-                navOpenStatus:'navOpen'
+                navOpenStatus:'navOpen',
+                snackBarData:'snackbar',
             }),
             navOpen:{
                 get() {
@@ -37,6 +52,14 @@
                 },
                 set( value ) {
                     this.$store.commit( 'changeNavOpen', value )
+                }
+            },
+            snackBar:{
+                get() {
+                    return this.snackBarData;
+                },
+                set( value ) {
+                    this.$store.commit( 'changeSnackBar', value )
                 }
             }
         },
