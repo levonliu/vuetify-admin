@@ -65,9 +65,9 @@
                         username: this.loginName,
                         password: this.password,
                     }).then(function (response) {
-                        // _this.$router.push('/');
+                        _this.$router.push('/');
                     }).catch(function (error) {
-                            console.log(error);
+                        console.log(error);
                     });
                 }
             },

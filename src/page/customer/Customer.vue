@@ -101,6 +101,15 @@
                 ]
             }
         }),
+        mounted(){
+            this.$nextTick(function () {
+                this.$http.get('/customer').then(function (response) {
+                    console.log(response);
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            })
+        },
         components:{
             dataTable,
         }
