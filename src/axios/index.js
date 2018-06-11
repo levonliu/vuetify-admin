@@ -2,7 +2,7 @@ import axios from 'axios';
 import qs from 'qs';
 
 axios.defaults.timeout = 5000;
-axios.defaults.baseURL = 'http://api.test:8000/api';
+axios.defaults.baseURL = 'http://apiDemo.test/api';
 
 // 添加请求拦截器
 axios.interceptors.request.use(function (config) {
@@ -13,7 +13,7 @@ axios.interceptors.request.use(function (config) {
     var token = localStorage.getItem("token");
     // 附加TOKEN
     if (token) {
-        config.headers['Authorization'] = token;
+        config.headers['Authorization'] = 'bearer '+token;
     }
     return config;
 }, function (error) {
