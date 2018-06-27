@@ -19,30 +19,20 @@
                             {{ header.text }}
                             <v-icon small>arrow_upward</v-icon>
                         </th>
-                        <th v-if="isOperate"
-                                style="border-bottom: 1px solid rgb(198,198,198)">
-                            操作
-                        </th>
+                        <slot name="dataHeader"></slot>
                     </tr>
                 </template>
                 <template slot="items" slot-scope="props">
                     <tr>
                         <td v-for="(field) in dataList.headers" :key="field.text" v-html="renderField(props.item, field)"></td>
-                        <td class="justify-center layout px-0" v-if="isOperate">
-                            <v-btn icon class="mx-6" @click="edit(props.item)">
-                                <v-icon color="teal">edit</v-icon>
-                            </v-btn>
-                            <v-btn icon class="mx-6">
-                                <v-icon color="pink">delete</v-icon>
-                            </v-btn>
-                        </td>
+                        <slot name="dataList" :data="props.item"></slot>
                     </tr>
                 </template>
                 <template slot="no-results">
                     <tr>
                         <td :colspan="tdNum">
                             <v-alert :value="true" color="error" icon="warning">
-                                Sorry, nothing to display here :(
+                                对不起，没有数据:(
                             </v-alert>
                         </td>
                     </tr>
@@ -76,15 +66,13 @@
         props   : {
             search      : { type: String },
             dataList    : { type: Object },
-            isOperate   : { type: Boolean },
-            editPathName: { type: String }
         },
         data    : () => ({
             pagination: {
                 sortBy     : 'id',
                 rowsPerPage: 5,
             },
-            pageSizes : [ 1, 2, 5, 10 ],
+            pageSizes : [ 5, 10, 15, 20 ],
             pageSize  : 5,
         }),
         methods : {
@@ -100,12 +88,6 @@
                     this.pagination.descending = false
                 }
             },
-            edit( data ) {
-                let editPathName = this.editPathName;
-                // alert(editPathName);
-                // alert(data);
-                this.$router.push( { name: editPathName, params: data } );
-            }
         },
         computed: {
             pages() {
@@ -134,11 +116,6 @@
                 this.pagination.page        = 1;
             },
 
-        },
-        created() {
-            this.dataList.data.forEach( function ( value, index ) {
-                value[ 'index' ] = index + 1;
-            } );
         },
     }
 </script>

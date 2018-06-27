@@ -36,82 +36,74 @@
                             v-model="search"
                     ></v-text-field>
                 </v-flex>
-        </v-card-title>
+            </v-card-title>
         </v-flex>
         <v-flex xs12>
-            <dataTable :search="search" :dataList="dataList" :isOperate="true" editPathName="customer_edit">
+            <dataTable :search="search" :dataList="dataList">
+                <template slot="dataHeader">
+                    <th style="border-bottom: 1px solid rgb(198,198,198)">操作</th>
+                </template>
+                <template slot="dataList"  slot-scope="slotProps">
+                    <td class="justify-center layout px-0">
+                        <v-btn icon class="mx-6" @click="edit(slotProps.data)">
+                            <v-icon color="teal">edit</v-icon>
+                        </v-btn>
+                        <v-btn icon class="mx-6">
+                            <v-icon color="pink">delete</v-icon>
+                        </v-btn>
+                    </td>
+                </template>
             </dataTable>
+        </v-flex>
+        <v-flex xs12>
+            <customerDialog :dialog="dialog" :customerData="customerData"></customerDialog>
         </v-flex>
     </v-layout>
 </template>
 
 <script>
     import dataTable from "../../components/DataTable"
+    import customerDialog from "../../components/customerDialog"
 
     export default {
         name: "Customer",
-        props:{
-
-        },
         data:()=>({
             fab: false,
             search:'',
             dataList:{
                 headers: [
                     { text: '序号',value: 'index'},
-                    { text: '姓名', value: 'name' },
-                    { text: '性别', value: 'sex' },
+                    { text: '姓名', value: 'customer_name' },
+                    { text: '性别', value: 'sex_name' },
                     { text: '电话', value: 'tel' },
-                    { text: '住址', value: 'address' },
-                    { text: '组', value: 'group' },
+                    { text: '住址', value: 'address_name' },
+                    { text: '组', value: 'group_name' },
                 ],
-                data: [
-                    {
-                        id  : 1,
-                        name: 'lll',
-                        sex: '女',
-                        tel : 157,
-                        address : 'a',
-                        group : 'A',
-                    },
-                    {
-                        id: 2,
-                        name: 'www',
-                        sex: '男',
-                        tel: 158,
-                        address : 'a',
-                        group : 'A',
-                    },
-                    {
-                        id: 3,
-                        name: 'ddd',
-                        sex: '女',
-                        tel: 159,
-                        address : 'a',
-                        group : 'A',
-                    },
-                    {
-                        id: 4,
-                        name: 'qqqq',
-                        sex: '男',
-                        tel: 160,
-                        address : 'a',
-                        group : 'A',
-                    }
-                ]
-            }
+                data: [],
+            },
+            dialog:false,
+            customerData:{},
         }),
         mounted(){
             this.$nextTick(function () {
-                this.$http.get('/customer').then(function (response) {
-                    console.log(response);
-                }).catch(function (error) {
-                    console.log(error);
-                });
+                let _this = this;
+                _this.$http.get('/customer').then(function (response) {
+                    response.data.data.forEach( function ( value, index ) {
+                        value[ 'index' ] = index + 1;
+                    } );
+                    _this.dataList.data = response.data.data;
+                })
             })
+        },
+        methods : {
+            edit( data ) {
+                this.customerData = data;
+                this.dialog = true;
+            }
         },
         components:{
             dataTable,
+            customerDialog,
         }
     }
 </script>

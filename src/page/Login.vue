@@ -64,15 +64,13 @@
                     this.$http.post('/login', {
                         username: this.loginName,
                         password: this.password,
-                    }).then(function (response) {
+                    }).then(function () {
                         _this.$router.push('/');
-                    }).catch(function (error) {
-                        console.log(error);
-                    });
+                    })
                 }
             },
             clear(){
-                this.$refs.loginForm.reset()
+                this.$refs.loginForm.reset();
             }
         }
     }
