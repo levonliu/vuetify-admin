@@ -59,8 +59,13 @@
 
     export default {
         props   :{
-            dialog:{type:Boolean},
+            dialogStatus:{type:Boolean},
             customerData:{type:Object}
+        },
+        data(){
+            return {
+                dialog:false
+            }
         },
         methods :{
             save(){
@@ -85,5 +90,13 @@
                 }
             }
         },
+        watch:{
+            dialogStatus(val){
+                this.dialog = val;
+            },
+            dialog(val){
+                this.$emit('update:dialogStatus', val)
+            }
+        }
     }
 </script>

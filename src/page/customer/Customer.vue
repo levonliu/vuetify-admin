@@ -56,7 +56,7 @@
             </dataTable>
         </v-flex>
         <v-flex xs12>
-            <customerDialog :dialog="dialog" :customerData="customerData"></customerDialog>
+            <customerDialog :dialogStatus.sync="dialog" :customerData="customerData"></customerDialog>
         </v-flex>
     </v-layout>
 </template>
