@@ -48,7 +48,7 @@
                         <v-btn icon class="mx-6" @click="edit(slotProps.data)">
                             <v-icon color="teal">edit</v-icon>
                         </v-btn>
-                        <v-btn icon class="mx-6">
+                        <v-btn icon class="mx-6" @click="del(slotProps.data.id)">
                             <v-icon color="pink">delete</v-icon>
                         </v-btn>
                     </td>
@@ -64,6 +64,7 @@
 <script>
     import dataTable from "../../components/DataTable"
     import customerDialog from "../../components/customerDialog"
+    import {mapGetters} from 'vuex'
 
     export default {
         name: "Customer",
@@ -99,6 +100,26 @@
             edit( data ) {
                 this.customerData = data;
                 this.dialog = true;
+            },
+            del(id){
+                this.snackBar = {
+                    status:true,
+                    color :'success',
+                    msg   :'删除成功',
+                }
+            }
+        },
+        computed:{
+            ...mapGetters({
+                snackBarData:'snackbar',
+            }),
+            snackBar:{
+                get(){
+                    return this.snackBarData;
+                },
+                set(value){
+                    this.$store.commit('changeSnackBar', value)
+                }
             }
         },
         components:{
