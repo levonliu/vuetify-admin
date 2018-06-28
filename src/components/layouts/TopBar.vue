@@ -16,7 +16,9 @@
         <v-spacer></v-spacer>
         <v-speed-dial right="right" direction="left" transition="scale-transition">
             <v-btn slot="activator" color="blue darken-2" dark fab hover>
-                <v-icon>account_circle</v-icon>
+                <v-avatar :tile="false" color="grey lighten-4">
+                    <img src="../../../public/images/avatar.jpg" alt="avatar">
+                </v-avatar>
             </v-btn>
             <v-tooltip bottom>
                 <v-btn fab dark small color="green" slot="activator">
@@ -38,8 +40,7 @@
     import { mapGetters } from 'vuex'
 
     export default {
-        data    : () => ({
-        }),
+        data    : () => ({}),
         computed: {
             ...mapGetters({
                 navOpenStatus:'navOpen',

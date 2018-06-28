@@ -32,7 +32,7 @@
                     <tr>
                         <td :colspan="tdNum">
                             <v-alert :value="true" color="error" icon="warning">
-                                对不起，没有数据:(
+                                没有数据:(
                             </v-alert>
                         </td>
                     </tr>
@@ -62,26 +62,27 @@
 
 <script>
     export default {
-        name    : "DataTable",
-        props   : {
-            search      : { type: String },
-            dataList    : { type: Object },
+        name    :"DataTable",
+        props   :{
+            search   :{type:String},
+            dataList :{type:Object},
+            isOperate:{type:Boolean},
         },
-        data    : () => ({
-            pagination: {
-                sortBy     : 'id',
-                rowsPerPage: 5,
+        data    :() => ({
+            pagination:{
+                sortBy     :'id',
+                rowsPerPage:10,
             },
-            pageSizes : [ 5, 10, 15, 20 ],
-            pageSize  : 5,
+            pageSizes :[5, 10, 15, 20],
+            pageSize  :10,
         }),
-        methods : {
-            renderField( item, field ) {
-                let value = item[ field.value ];
+        methods :{
+            renderField(item, field){
+                let value = item[field.value];
                 return value;
             },
-            changeSort( column ) {
-                if ( this.pagination.sortBy === column ) {
+            changeSort(column){
+                if(this.pagination.sortBy === column){
                     this.pagination.descending = !this.pagination.descending
                 } else {
                     this.pagination.sortBy     = column;
@@ -89,18 +90,18 @@
                 }
             },
         },
-        computed: {
-            pages() {
-                if ( this.pagination.rowsPerPage == null || this.pagination.totalItems == null ) {
+        computed:{
+            pages(){
+                if(this.pagination.rowsPerPage == null || this.pagination.totalItems == null){
                     return 0;
                 }
-                return Math.ceil( this.pagination.totalItems / this.pagination.rowsPerPage )
+                return Math.ceil(this.pagination.totalItems / this.pagination.rowsPerPage)
             },
-            pageFrom() {
+            pageFrom(){
                 let pageFrom = (this.pagination.page - 1) * this.pagination.rowsPerPage + 1;
                 return pageFrom;
             },
-            pageTo() {
+            pageTo(){
                 let pageTo = this.pagination.page * this.pagination.rowsPerPage;
                 return pageTo;
             },
@@ -110,8 +111,8 @@
                 return num;
             }
         },
-        watch   : {
-            pageSize( val ) {
+        watch   :{
+            pageSize(val){
                 this.pagination.rowsPerPage = val;
                 this.pagination.page        = 1;
             },

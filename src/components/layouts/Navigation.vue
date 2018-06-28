@@ -6,7 +6,7 @@
                     <v-icon>home</v-icon>
                 </v-list-tile-action>
                 <v-list-tile-content>
-                    <v-list-tile-title>Home</v-list-tile-title>
+                    <v-list-tile-title>首页</v-list-tile-title>
                 </v-list-tile-content>
             </v-list-tile>
             <v-list-tile @click="go('/customer')" ripple>
@@ -14,7 +14,7 @@
                     <v-icon>people</v-icon>
                 </v-list-tile-action>
                 <v-list-tile-content>
-                    <v-list-tile-title>Customers</v-list-tile-title>
+                    <v-list-tile-title>客户列表</v-list-tile-title>
                 </v-list-tile-content>
             </v-list-tile>
             <v-list-tile ripple @click="go('/')">
@@ -22,34 +22,34 @@
                     <v-icon>format_list_bulleted</v-icon>
                 </v-list-tile-action>
                 <v-list-tile-content>
-                    <v-list-tile-title>Goods</v-list-tile-title>
+                    <v-list-tile-title>商品列表</v-list-tile-title>
                 </v-list-tile-content>
             </v-list-tile>
-            <!--<v-list-group prepend-icon="contact_mail">-->
-                <!--<v-list-tile slot="activator">-->
-                    <!--<v-list-tile-content>-->
-                        <!--<v-list-tile-title>-->
-                            <!--Customer-->
-                        <!--</v-list-tile-title>-->
-                    <!--</v-list-tile-content>-->
-                <!--</v-list-tile>-->
-                <!--<v-list-tile @click="">-->
-                    <!--<v-list-tile-action>-->
-                        <!--<v-icon>person_add</v-icon>-->
-                    <!--</v-list-tile-action>-->
-                    <!--<v-list-tile-content>-->
-                        <!--<v-list-tile-title>Customer_add</v-list-tile-title>-->
-                    <!--</v-list-tile-content>-->
-                <!--</v-list-tile>-->
-                <!--<v-list-tile @click="">-->
-                    <!--<v-list-tile-action>-->
-                        <!--<v-icon>view_headline</v-icon>-->
-                    <!--</v-list-tile-action>-->
-                    <!--<v-list-tile-content>-->
-                        <!--<v-list-tile-title>Customer_list</v-list-tile-title>-->
-                    <!--</v-list-tile-content>-->
-                <!--</v-list-tile>-->
-            <!--</v-list-group>-->
+            <v-list-group prepend-icon="settings">
+                <v-list-tile slot="activator">
+                    <v-list-tile-content>
+                        <v-list-tile-title>
+                            设置中心
+                        </v-list-tile-title>
+                    </v-list-tile-content>
+                </v-list-tile>
+                <v-list-tile @click="">
+                    <v-list-tile-action>
+                        <v-icon>person_add</v-icon>
+                    </v-list-tile-action>
+                    <v-list-tile-content>
+                        <v-list-tile-title>Customer_add</v-list-tile-title>
+                    </v-list-tile-content>
+                </v-list-tile>
+                <v-list-tile @click="">
+                    <v-list-tile-action>
+                        <v-icon>view_headline</v-icon>
+                    </v-list-tile-action>
+                    <v-list-tile-content>
+                        <v-list-tile-title>Customer_list</v-list-tile-title>
+                    </v-list-tile-content>
+                </v-list-tile>
+            </v-list-group>
         </v-list>
     </v-navigation-drawer>
 </template>
