@@ -70,6 +70,10 @@
         methods :{
             save(){
                 this.dialog   = false;
+                let _this = this;
+                _this.$http.post('/customer',this.customerData).then(function(response){
+                   console.log(response);
+                });
                 this.snackBar = {
                     status:true,
                     color :'success',

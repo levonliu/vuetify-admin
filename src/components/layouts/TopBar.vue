@@ -57,6 +57,7 @@
             snackBar:{
                 get() {
                     return this.snackBarData;
+
                 },
                 set( value ) {
                     this.$store.commit( 'changeSnackBar', value )

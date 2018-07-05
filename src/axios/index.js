@@ -31,7 +31,7 @@ axios.interceptors.response.use(function (response) {
         if (response.data.access_token) {
             localStorage.setItem('token', response.data.access_token);
         }else{
-            router.push({ path: '/login' }) //页面跳转
+            // router.push({ path: '/login' }) //页面跳转
         }
     }
     return response;
