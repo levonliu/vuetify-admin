@@ -98,13 +98,13 @@
         }),
         mounted(){
             this.$nextTick(function(){
-                let _this = this;
-                _this.$http.get('/customer').then(function(response){
-                    response.data.data.forEach(function(value, index){
-                        value['index'] = index + 1;
-                    });
-                    _this.dataList.data = response.data.data;
-                })
+                // let _this = this;
+                // _this.$http.get('/customer').then(function(response){
+                //     response.data.data.forEach(function(value, index){
+                //         value['index'] = index + 1;
+                //     });
+                //     _this.dataList.data = response.data.data;
+                // })
             })
         },
         methods   :{

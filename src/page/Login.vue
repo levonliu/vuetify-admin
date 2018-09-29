@@ -1,10 +1,11 @@
 <template>
-    <v-app id="inspire">
+    <v-app id="inspire" class="login">
         <v-content>
             <v-container fluid fill-height>
                 <v-layout align-center justify-center>
-                    <v-flex xs12 sm8 md4>
-                        <v-card class="elevation-12">
+                    <v-flex xs0 sm7 md8></v-flex>
+                    <v-flex xs12 sm4 md3>
+                        <v-card class="elevation-12" >
                             <v-toolbar dark color="primary">
                                 <v-toolbar-title>Login</v-toolbar-title>
                             </v-toolbar>
@@ -12,7 +13,7 @@
                                 <v-form ref="loginForm" v-model="valid" lazy-validation>
                                     <v-text-field prepend-icon="person"
                                             name="login"
-                                            label="Login"
+                                            label="Name"
                                             :counter="10"
                                             v-model="loginName"
                                             :rules="loginRules"
@@ -35,6 +36,7 @@
                             </v-card-actions>
                         </v-card>
                     </v-flex>
+                    <v-flex xs0 sm1 md1></v-flex>
                 </v-layout>
             </v-container>
         </v-content>
@@ -60,14 +62,14 @@
             login(e){
                 let _this = this;
                 e.preventDefault();
-                if (this.$refs.loginForm.validate()) {
-                    this.$http.post('/login', {
-                        username: this.loginName,
-                        password: this.password,
-                    }).then(function () {
+                // if (this.$refs.loginForm.validate()) {
+                //     this.$http.post('/login', {
+                //         username: this.loginName,
+                //         password: this.password,
+                //     }).then(function () {
                         _this.$router.push('/');
-                    })
-                }
+                //     })
+                // }
             },
             clear(){
                 this.$refs.loginForm.reset();
@@ -77,5 +79,12 @@
 </script>
 
 <style scoped>
-
+    #inspire{
+        width: 100%;
+        height: 100%;
+        background: url("/static/images/login.jpg") no-repeat;
+        background-size: cover;
+        background-position: center;
+        position: absolute;
+    }
 </style>

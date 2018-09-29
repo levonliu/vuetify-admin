@@ -36,6 +36,7 @@ axios.interceptors.response.use(function (response) {
     }
     return response;
 }, function (error) {
+    console.log(error);
     if (error.response.status === 401){
         router.push({ path: '/login' }) //页面跳转
     }

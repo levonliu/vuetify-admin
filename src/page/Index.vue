@@ -34,7 +34,7 @@
         transition: all .5s ease;
     }
     .fade-enter, .fade-leave-to {
-        transform: translateY(-50px);
+        transform: translateX(50px);
         opacity: 0;
     }
 </style>

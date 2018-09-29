@@ -1,7 +1,6 @@
 <template>
-    <v-toolbar color="indigo" dark fixed app clipped-left>
+    <v-toolbar color="indigo" dark fixed  app >
         <v-toolbar-side-icon @click.stop="navOpen = !navOpen"></v-toolbar-side-icon>
-        <v-toolbar-title>Admin</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-snackbar
                 :timeout="snackBar.time"
@@ -17,7 +16,7 @@
         <v-speed-dial right="right" direction="left" transition="scale-transition">
             <v-btn slot="activator" color="blue darken-2" dark fab hover>
                 <v-avatar :tile="false" color="grey lighten-4">
-                    <img src="../../../public/images/avatar.jpg" alt="avatar">
+                    <img src="../../../public/static/images/avatar.jpg" alt="avatar">
                 </v-avatar>
             </v-btn>
             <v-tooltip bottom>
@@ -66,7 +65,7 @@
         },
         methods : {
             logout() {
-                // this.$router.push( '/login' )
+                this.$router.push( '/login' )
             }
         },
         components:{
