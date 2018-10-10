@@ -16,44 +16,40 @@
                     md4
                     lg3
             >
-                <v-card>
-                    <v-img class="white--text" height="150px" src="/static/images/login.jpg"></v-img>
-                    <v-card-title><h4>{{ props.item.name }}</h4></v-card-title>
-                    <v-list dense>
-                        <v-list-tile>
-                            <v-list-tile-content>Calories:</v-list-tile-content>
-                            <v-list-tile-content class="align-end">{{ props.item.calories }}</v-list-tile-content>
-                        </v-list-tile>
-                        <v-list-tile>
-                            <v-list-tile-content>Fat:</v-list-tile-content>
-                            <v-list-tile-content class="align-end">{{ props.item.fat }}</v-list-tile-content>
-                        </v-list-tile>
-                    </v-list>
-                    <v-divider></v-divider>
-                    <v-card-actions>
-                        <v-bottom-sheet v-model="sheet">
-                            <v-btn slot="activator" color="lime accent-3" small>编辑</v-btn>
-                            <v-list>
-                                <v-subheader>Open in</v-subheader>
-                                <v-list-tile v-for="tile in tiles" :key="tile.title" @click="sheet = false">
-                                    <v-list-tile-avatar>
-                                        <v-avatar size="32px" tile>
-                                            <img :src="`https://cdn.vuetifyjs.com/images/bottom-sheets/${tile.img}`" :alt="tile.title">
-                                        </v-avatar>
-                                    </v-list-tile-avatar>
-                                    <v-list-tile-title>{{ tile.title }}</v-list-tile-title>
-                                </v-list-tile>
-                            </v-list>
-                        </v-bottom-sheet>
-                        <v-btn flat color="teal lighten-2">删除</v-btn>
-                    </v-card-actions>
-                </v-card>
+                <v-hover>
+                    <v-card slot-scope="{ hover }"
+                            :class="`elevation-${hover ? 12 : 2}`"
+                            class="mx-auto"
+                            >
+                        <v-img class="white--text" height="150px" src="/static/images/login.jpg"></v-img>
+                        <v-card-title><h4>{{ props.item.name }}</h4></v-card-title>
+                        <v-list dense>
+                            <v-list-tile>
+                                <v-list-tile-content>Calories:</v-list-tile-content>
+                                <v-list-tile-content class="align-end">{{ props.item.calories }}</v-list-tile-content>
+                            </v-list-tile>
+                            <v-list-tile>
+                                <v-list-tile-content>Fat:</v-list-tile-content>
+                                <v-list-tile-content class="align-end">{{ props.item.fat }}</v-list-tile-content>
+                            </v-list-tile>
+                        </v-list>
+                        <v-divider></v-divider>
+                        <v-card-actions>
+                            <v-bottom-sheet v-model="sheet">
+                                <v-btn slot="activator" color="lime accent-3" small>编辑</v-btn>
+                                <GoodDetail :sheet="sheet" :data="tiles"></GoodDetail>
+                            </v-bottom-sheet>
+                            <v-btn slot="activator" dark left  small color="teal lighten-2" >删除</v-btn>
+                        </v-card-actions>
+                    </v-card>
+                </v-hover>
             </v-flex>
         </v-data-iterator>
     </v-container>
 </template>
 
 <script>
+    import GoodDetail from "./goodDetail"
     export default {
         name:"Goods",
         data:() => ({
@@ -181,7 +177,10 @@
                     iron:'6%'
                 }
             ]
-        })
+        }),
+        components:{
+            GoodDetail,
+        }
     }
 </script>
 
