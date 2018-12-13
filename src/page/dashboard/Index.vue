@@ -4,7 +4,7 @@
             <!--客户信息-->
             <v-flex xs12 sm12 md4 v-for="i in 3">
                 <v-card>
-                    <v-img class="white--text" height="100px" src="/static/image/login.jpg">
+                    <v-img class="white--text" height="100px" src="/static/images/login.jpg">
                         <v-container fill-height fluid>
                             <v-layout fill-height>
                                 <v-flex xs12 align-end flexbox>

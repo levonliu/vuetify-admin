@@ -49,7 +49,7 @@
 </template>
 
 <script>
-    import GoodDetail from "./goodDetail"
+    import GoodDetail from "./GoodDetail"
     export default {
         name:"Goods",
         data:() => ({

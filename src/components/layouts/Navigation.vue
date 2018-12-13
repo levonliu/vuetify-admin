@@ -1,5 +1,5 @@
 <template>
-    <v-navigation-drawer fixed app v-model="navOpen"
+    <v-navigation-drawer fixed app v-model="navStatus.status"
                          class="purple darken-4"
                          dark
     >
@@ -28,43 +28,17 @@
                         <v-list-tile-title>商品列表</v-list-tile-title>
                     </v-list-tile-content>
                 </v-list-tile>
-                <!--<v-list-group prepend-icon="settings" >-->
-                <!--<v-list-tile slot="activator">-->
-                <!--<v-list-tile-title>设置中心</v-list-tile-title>-->
-                <!--</v-list-tile>-->
-                <!--<v-list-group sub-group no-action >-->
-                <!--<v-list-tile slot="activator">-->
-                <!--<v-list-tile-title>商品</v-list-tile-title>-->
-                <!--</v-list-tile>-->
-                <!--<v-list-tile @click="">-->
-                <!--<v-list-tile-title >asasd</v-list-tile-title>-->
-                <!--<v-list-tile-action>-->
-                <!--<v-icon v-text="people_outline"></v-icon>-->
-                <!--</v-list-tile-action>-->
-                <!--</v-list-tile>-->
-                <!--</v-list-group>-->
-                <!--</v-list-group>-->
             </v-list>
     </v-navigation-drawer>
 </template>
 
 <script>
-    import {mapGetters} from 'vuex'
-
     export default {
         name:"navigation",
         data:() => ({}),
         computed:{
-            ...mapGetters({
-                navOpenStatus:'navOpen'
-            }),
-            navOpen:{
-                get(){
-                    return this.navOpenStatus;
-                },
-                set(value){
-                    this.$store.commit('changeNavOpen', value)
-                }
+            navStatus(){
+                return this.$store.state.nav;
             }
         },
         methods:{

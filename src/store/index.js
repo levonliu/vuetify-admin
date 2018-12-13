@@ -1,16 +1,19 @@
-import Vuex from 'vuex'
 import Vue from "vue"
+import Vuex from 'vuex'
 
-import Nav from './modules/nav'
-import snackBar from './modules/snackbar'
+import app from './modules/app'
+import nav from './modules/nav'
+import snackBar from './modules/snackBar'
 
 Vue.use( Vuex );
 
 const store = new Vuex.Store({
     modules:{
-        Nav,
+        app,
+        nav,
         snackBar,
-    }
+    },
+    // strict: true,
 });
 
 export default store;

@@ -12,7 +12,7 @@
 
 <style>
     html {
-        overflow-y: auto!important;
+        /*overflow-y: auto!important;*/
     }
 
     .v-overlay--active:before {

@@ -1,16 +1,13 @@
 <template>
-    <v-toolbar color="indigo" dark fixed  app >
-        <v-toolbar-side-icon @click.stop="navOpen = !navOpen"></v-toolbar-side-icon>
+    <v-toolbar color="indigo" dark fixed app>
+        <v-toolbar-side-icon @click.stop="changeNavOpen"></v-toolbar-side-icon>
         <v-spacer></v-spacer>
-        <v-snackbar
-                :timeout="snackBar.time"
-                :color="snackBar.color"
-                v-model="snackBar.status"
-                top="top"
-                style="position: relative"
-        >
+        <v-snackbar :timeout="snackBar.time" :color="snackBar.type" v-model="snackBar.status" top="top"
+                style="position: relative">
             {{snackBar.msg}}
-            <v-btn dark flat @click.native="snackBar.status = !snackBar.status">Close</v-btn>
+            <v-btn dark flat @click="closeMessage">
+                Close
+            </v-btn>
         </v-snackbar>
         <v-spacer></v-spacer>
         <v-speed-dial right="right" direction="left" transition="scale-transition">
@@ -36,40 +33,25 @@
 </template>
 
 <script>
-    import { mapGetters } from 'vuex'
-
     export default {
         data    : () => ({}),
         computed: {
-            ...mapGetters({
-                navOpenStatus:'navOpen',
-                snackBarData:'snackbar',
-            }),
-            navOpen:{
-                get() {
-                    return this.navOpenStatus;
-                },
-                set( value ) {
-                    this.$store.commit( 'changeNavOpen', value )
-                }
-            },
-            snackBar:{
-                get() {
-                    return this.snackBarData;
-
-                },
-                set( value ) {
-                    this.$store.commit( 'changeSnackBar', value )
-                }
+            snackBar() {
+                return this.$store.state.snackBar
             }
         },
         methods : {
+            changeNavOpen() {
+                let status = !this.$store.state.nav.status;
+                this.$store.dispatch('changeNavOpen', status)
+            },
+            closeMessage(){
+                this.$store.dispatch('closeMessage')
+            },
             logout() {
-                this.$router.push( '/login' )
+                this.$router.push('/login')
             }
         },
-        components:{
-        }
     }
 </script>
 

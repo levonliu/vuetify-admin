@@ -73,7 +73,9 @@
     import dataTable from "../../components/DataTable"
     import customerDialog from "./CustomerDialog"
     import mesDialog from "../../components/MessageDialog"
-    import {mapGetters} from 'vuex'
+    import { mapGetters } from 'vuex'
+    import { customerList } from '@/api/customer'
+
 
     export default {
         name      :"Customer",
@@ -98,13 +100,10 @@
         }),
         mounted(){
             this.$nextTick(function(){
-                // let _this = this;
-                // _this.$http.get('/customer').then(function(response){
-                //     response.data.data.forEach(function(value, index){
-                //         value['index'] = index + 1;
-                //     });
-                //     _this.dataList.data = response.data.data;
-                // })
+                customerList().then(response => {
+                    const data = response.data
+                    this.dataList.data = data
+                })
             })
         },
         methods   :{
