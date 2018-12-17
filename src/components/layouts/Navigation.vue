@@ -45,6 +45,10 @@
             go(path){
                 this.$router.push(path)
             }
+        },
+        mounted(){
+            // 初始化菜单
+            this.$store.dispatch("getMenu");
         }
     }
 </script>

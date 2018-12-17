@@ -1,4 +1,4 @@
-import { login } from '@/api/user'
+import { login, menu } from '@/api/user'
 const state = {
     user: {
         name: '游客',
@@ -27,11 +27,20 @@ const actions = {
             })
         })
     },
+    getMenu({commit}){
+        menu().then(response => {
+            const data = response.data
+            commit('SET_MENUS', data.data);
+        })
+    }
 };
 
 const mutations = {
     SET_TOKEN : (state,token) => {
         state.token = token
+    },
+    SET_MENUS : (state,menu) => {
+        state.menus = menu
     }
 };
 
