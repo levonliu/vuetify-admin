@@ -14,9 +14,8 @@ export const login = (data) => {
 
 /**
  * 获取菜单
- * @param data
  */
-export const menu = (data) => {
+export const menu = () => {
     return request({
         url: 'menu',
         method: 'get',
