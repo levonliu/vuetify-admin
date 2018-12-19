@@ -1,18 +1,15 @@
-import { login, menu } from '@/api/user'
+import { login, user, menu } from '@/api/user'
 const state = {
     user: {
         name: '游客',
         phone: "186****1290",
-        company_name: "公司名称",
-        company_address: "公司地址",
         rules: []
     },
     menus:[],
     token: localStorage.getItem('saas_token'),
 };
 
-const getters = {
-};
+const getters = {};
 
 const actions = {
     login({commit}, data){
@@ -27,10 +24,18 @@ const actions = {
             })
         })
     },
+
+    getUser({commit}){
+        user().then(response => {
+            const data = response.data
+            commit('SET_USER', data.data)
+        })
+    },
+
     getMenu({commit}){
         menu().then(response => {
             const data = response.data
-            commit('SET_MENUS', data.data);
+            commit('SET_MENUS', data.data)
         })
     }
 };
@@ -39,6 +44,11 @@ const mutations = {
     SET_TOKEN : (state,token) => {
         state.token = token
     },
+
+    SET_USER : (state,user) => {
+        state.user = user
+    },
+
     SET_MENUS : (state,menu) => {
         state.menus = menu
     }

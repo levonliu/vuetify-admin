@@ -12,6 +12,13 @@ export const login = (data) => {
     })
 }
 
+export const user = () => {
+    return request({
+        url : 'user',
+        method : 'get',
+    })
+}
+
 /**
  * 获取菜单
  */

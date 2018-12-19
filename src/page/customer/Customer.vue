@@ -7,7 +7,7 @@
                         <v-icon>edit</v-icon>
                         <v-icon>close</v-icon>
                     </v-btn>
-                    <v-tooltip top>
+                    <v-tooltip top v-if="addAuth">
                         <v-btn fab dark small color="green" slot="activator" @click="add()">
                             <v-icon>add</v-icon>
                         </v-btn>
@@ -102,11 +102,13 @@
             this.$nextTick(function(){
                 customerList().then(response => {
                     const data = response.data
-                    this.dataList.data = data
+                    // this.dataList.data = data
                 })
             })
         },
+
         methods   :{
+
             add(){
                 this.dialog       = true;
                 this.customerData = '';
@@ -140,7 +142,10 @@
                 set(value){
                     this.$store.commit('changeSnackBar', value)
                 }
-            }
+            },
+            addAuth(){
+                return this.$checkAuth(['customer/create']);
+            },
         },
         components:{
             dataTable,

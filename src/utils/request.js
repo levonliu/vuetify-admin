@@ -20,7 +20,6 @@ service.interceptors.request.use(function(config) {
     if(token) {
         config.headers['Authorization'] = token;
     }
-    console.log(config)
     return config;
 }, function(error) {
     // 对请求错误做些什么
@@ -42,16 +41,16 @@ service.interceptors.response.use(function(response) {
         time:1500
     }
     switch(res.status) {
-        case '400':
+        case 400:
             message.msg = res.data.message
             store.dispatch('showMessage', message)
             break;
-        case '401':
+        case 401:
             message.msg = res.data.message
             store.dispatch('showMessage', message)
             router.push({path: '/login'}) //页面跳转
             break;
-        case '403':
+        case 403:
             message.msg = res.data.message
             store.dispatch('showMessage', message)
             break;
