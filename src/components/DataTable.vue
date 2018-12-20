@@ -2,11 +2,10 @@
     <v-layout row wrap>
         <v-flex xs12>
             <v-data-table
-                    :headers="dataList.headers"
-                    :items="dataList.data"
-                    :search="search"
-                    :pagination.sync="pagination"
+                    :headers="datagrid.headers"
+                    :items="tableData"
                     hide-actions
+                    :loading="loading"
                     class="elevation-1"
             >
                 <template slot="headers" slot-scope="props">
@@ -19,14 +18,14 @@
                             {{ header.text }}
                             <v-icon small>arrow_upward</v-icon>
                         </th>
-                        <slot name="dataHeader"></slot>
+                        <slot name="dataHeader" data="操作"></slot>
                     </tr>
                 </template>
                 <template slot="items" slot-scope="props">
                     <tr>
-                        <td v-for="(field) in dataList.headers" :key="field.text"
+                        <td v-for="(field) in datagrid.headers" :key="field.text"
                                 v-html="renderField(props.item, field)"></td>
-                        <slot name="dataList" :data="props.item"></slot>
+                        <slot name="otherColumn" :data="props.item"></slot>
                     </tr>
                 </template>
                 <template slot="no-data">
@@ -43,11 +42,10 @@
         </v-flex>
         <v-layout row wrap>
             <v-flex xs12 sm6 md6 class="text-xs-left text-sm-left text-md-left">
-                <v-pagination class="text-xs-center pt-2" v-model="pagination.page" :length="pages" :total-visible="7"
-                        circle></v-pagination>
+                <v-pagination class="text-xs-center pt-2" v-model="pagination.page" :length="pages" :total-visible="7" circle></v-pagination>
             </v-flex>
             <v-flex xs12 sm6 md6 class="text-xs-right text-sm-right text-md-right">
-                <v-layout row wrap >
+                <v-layout row wrap>
                     <v-flex xs4 sm4 md6 class="text-xs-right text-sm-right text-md-right">
                         <v-select
                                 :items="pageSizes"
@@ -71,22 +69,75 @@
 </template>
 
 <script>
+    import request from '@/utils/request';
+
     export default {
         name    : "DataTable",
         props   : {
-            search   : {type: String},
-            dataList : {type: Object},
-            isOperate: {type: Boolean},
+            queryKeyWord: {type: String},
+            isOperate   : {type: Boolean},
+            datagrid    : {type: Object},
         },
         data    : () => ({
+            loading   : true,
+            tableData : [],
             pagination: {
-                sortBy     : 'id',
+                descending : true,
+                page       : 1,
                 rowsPerPage: 10,
+                sortBy     : 'id',
+                totalItems : 0,
             },
-            pageSizes : [5, 10, 15, 20],
+            pageSizes : [1, 10, 15, 20],
             pageSize  : 10,
         }),
+        mounted() {
+            this.$nextTick(() => {
+                this.init();
+            })
+        },
         methods : {
+            init() {
+                this.getList();
+            },
+            getList() {
+                this.loading = true
+                if(this.datagrid.url && typeof this.datagrid.url === 'string') {
+                    let params = {};
+                    //关键字查询keywords
+                    if(this.queryKeyWord !== null) {
+                        params.queryKeyWord = this.queryKeyWord
+                        let fields          = [];
+                        this.datagrid.headers.forEach((item) => {
+                            fields.push(item.value);
+                        });
+                        params.queryKeyFields = fields;
+                    }
+                    // 设置翻页相关参数
+                    params.page  = this.pagination.page;
+                    params.limit = this.pageSize;
+                    //排序
+                    let sortKey      = this.pagination.sortBy === 'index' ? 'id' : this.pagination.sortBy
+                    let sort         = this.pagination.descending ? 'desc' : 'asc'
+                    params.querySort = [sortKey, sort]
+
+                    let requestData = {
+                        url   : this.datagrid.url,
+                        method: 'get',
+                        params: params,
+                    };
+                    request(requestData).then(response => {
+                        const data   = response.data.data
+                        const count  = (this.pagination.page - 1) * this.pageSize;
+                        data.rows.forEach(function(item, index) {
+                            item.id = index + 1 + count
+                        })
+                        this.tableData             = data.rows
+                        this.pagination.totalItems = data.total
+                        this.loading                = false
+                    })
+                }
+            },
             renderField(item, field) {
                 let value = item[field.value];
                 return value;
@@ -116,18 +167,29 @@
                 return pageTo;
             },
             tdNum() {
-                let num = this.dataList.headers.length;
+                let num = this.datagrid.headers.length;
                 num     = this.isOperate ? num += 1 : num;
                 return num;
             }
         },
         watch   : {
+            pagination: {
+                handler: function(val, oldVal) {
+                    this.init();
+                },
+                deep   : true
+            },
             pageSize(val) {
                 this.pagination.rowsPerPage = val;
                 this.pagination.page        = 1;
+                this.init();
             },
+            queryKeyWord(val){
+                this.init();
+            }
 
         },
+
     }
 </script>
 

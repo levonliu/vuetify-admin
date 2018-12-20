@@ -63,8 +63,6 @@
 </template>
 
 <script>
-    import {login} from '@/api/user'
-
     export default {
         data: () => ({
             valid: false,

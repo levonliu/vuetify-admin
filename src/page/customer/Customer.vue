@@ -13,13 +13,13 @@
                         </v-btn>
                         <span>新增</span>
                     </v-tooltip>
-                    <v-tooltip top>
+                    <v-tooltip top v-if="uploadAuth">
                         <v-btn fab dark small color="blue-grey" slot="activator">
                             <v-icon>cloud_upload</v-icon>
                         </v-btn>
                         <span>上传</span>
                     </v-tooltip>
-                    <v-tooltip top>
+                    <v-tooltip top v-if="downloadAuth">
                         <v-btn fab dark small color="yellow darken-3" slot="activator">
                             <v-icon>cloud_download</v-icon>
                         </v-btn>
@@ -33,22 +33,23 @@
                             label="Search"
                             single-line
                             hide-details
-                            v-model="search"
+                            v-model.lazy="queryKeyWord"
                     ></v-text-field>
                 </v-flex>
             </v-card-title>
         </v-flex>
         <v-flex xs12>
-            <dataTable :search="search" :dataList="dataList" :isOperate="true">
-                <template slot="dataHeader">
-                    <th style="border-bottom: 1px solid rgb(198,198,198)">操作</th>
+            <dataTable :queryKeyWord="queryKeyWord" :datagrid="datagrid" :isOperate="isOperate">
+                <template slot="dataHeader" v-if="editAuth || delAuth" slot-scope="title">
+
+                    <th style="border-bottom: 1px solid rgb(198,198,198)">{{title.data}}</th>
                 </template>
-                <template slot="dataList" slot-scope="slotProps">
+                <template slot="otherColumn" slot-scope="slotProps">
                     <td class="justify-center layout px-0">
-                        <v-btn icon class="mx-6" @click="edit(slotProps.data)">
+                        <v-btn icon class="mx-6" @click="edit(slotProps.data)" v-if="editAuth">
                             <v-icon color="teal">edit</v-icon>
                         </v-btn>
-                        <v-btn icon class="mx-6" @click="isDel(slotProps.data.id)">
+                        <v-btn icon class="mx-6" @click="isDel(slotProps.data.id)" v-if="delAuth">
                             <v-icon color="pink">delete</v-icon>
                         </v-btn>
                     </td>
@@ -73,81 +74,66 @@
     import dataTable from "../../components/DataTable"
     import customerDialog from "./CustomerDialog"
     import mesDialog from "../../components/MessageDialog"
-    import { mapGetters } from 'vuex'
-    import { customerList } from '@/api/customer'
-
 
     export default {
-        name      :"Customer",
-        data      :() => ({
-            fab         :false,
-            search      :'',
-            dataList    :{
-                headers:[
-                    {text:'序号', value:'index'},
-                    {text:'姓名', value:'customer_name'},
-                    {text:'性别', value:'sex_name'},
-                    {text:'电话', value:'tel'},
-                    {text:'住址', value:'address_name'},
-                    {text:'组', value:'group_name'},
+        name: "Customer",
+        data: () => ({
+            fab         : false,
+            datagrid    : {
+                url    : '/customer',
+                headers: [
+                    {text: 'ID', value: 'id'},
+                    {text: '姓名', value: 'name'},
+                    {text: '性别', value: 'sex'},
+                    {text: '电话', value: 'tel'},
+                    {text: '住址', value: 'address'},
+                    {text: '组', value: 'level'},
                 ],
-                data   :[],
             },
-            dialog      :false,
-            customerData:{},
-            mesDialog   :false,
-            delId       :0,
+            queryKeyWord: '',
+            dialog      : false,
+            customerData: {},
+            mesDialog   : false,
+            delId       : 0,
+            isOperate   : true
         }),
-        mounted(){
-            this.$nextTick(function(){
-                customerList().then(response => {
-                    const data = response.data
-                    // this.dataList.data = data
-                })
-            })
-        },
 
-        methods   :{
-
-            add(){
+        methods   : {
+            add() {
                 this.dialog       = true;
-                this.customerData = '';
+                this.customerData = {};
             },
-            edit(data){
+            edit(data) {
                 this.dialog       = true;
                 this.customerData = data;
             },
-            isDel(id){
+            isDel(id) {
                 this.mesDialog = true;
                 this.delId     = id;
             },
-            del(id){
+            del() {
                 this.mesDialog = false;
-                console.log(id);
-                this.snackBar  = {
-                    status:true,
-                    color :'success',
-                    msg   :'删除成功',
-                }
+                this.$store.dispatch('showMessage',{status:true,type:'success',msg:"删除成功"})
             }
         },
-        computed  :{
-            ...mapGetters({
-                snackBarData:'snackbar',
-            }),
-            snackBar:{
-                get(){
-                    return this.snackBarData;
-                },
-                set(value){
-                    this.$store.commit('changeSnackBar', value)
-                }
-            },
-            addAuth(){
+        computed  : {
+            addAuth() {
                 return this.$checkAuth(['customer/create']);
             },
+            uploadAuth() {
+                return this.$checkAuth(['customer/upload']);
+            },
+            downloadAuth() {
+                return this.$checkAuth(['customer/download']);
+            },
+            editAuth() {
+                return this.$checkAuth(['customer/update']);
+            },
+            delAuth() {
+                return this.$checkAuth(['customer/delete']);
+            }
         },
-        components:{
+        components: {
             dataTable,
             customerDialog,
             mesDialog,

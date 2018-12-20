@@ -8,27 +8,23 @@
                 <v-card-text>
                     <v-container grid-list-md>
                         <v-layout wrap>
-                            <v-flex xs12 sm12 md12>
-                                <v-text-field label="姓名" required v-model="customerData.customer_name"></v-text-field>
+                            <v-flex xs12 sm12 md4>
+                                <v-text-field label="姓名*" required v-model="customerData.name"></v-text-field>
+                            </v-flex>
+                            <v-flex xs12 sm12 md8>
+                                <v-text-field label="电话*" required v-model="customerData.tel"></v-text-field>
                             </v-flex>
                             <v-flex xs12 sm12 md12>
-                                <v-text-field label="电话" required v-model="customerData.tel"></v-text-field>
+                                <v-text-field label="住址" v-model="customerData.address"></v-text-field>
                             </v-flex>
-                            <v-flex xs12 sm4>
+                            <v-flex xs12 sm4 md6>
                                 <v-select
                                         :items="['男', '女']"
                                         label="性别"
-                                        v-model="customerData.sex_name"
+                                        v-model="customerData.sex"
                                 ></v-select>
                             </v-flex>
-                            <v-flex xs12 sm4>
-                                <v-select
-                                        :items="['绵竹','彭州']"
-                                        label="住址"
-                                        v-model="customerData.address_name"
-                                ></v-select>
-                            </v-flex>
-                            <v-flex xs12 sm4>
+                            <v-flex xs12 sm4 md6>
                                 <v-select
                                         :items="['A', 'B']"
                                         label="组"
@@ -55,8 +51,6 @@
     </v-layout>
 </template>
 <script>
-    import {mapGetters} from 'vuex'
-
     export default {
         props   :{
             dialogStatus:{type:Boolean},
@@ -70,29 +64,15 @@
         methods :{
             save(){
                 this.dialog   = false;
-                let _this = this;
-                _this.$http.post('/customer',this.customerData).then(function(response){
-                   console.log(response);
-                });
-                this.snackBar = {
-                    status:true,
-                    color :'success',
-                    msg   :'保存成功',
-                }
+                // let _this = this;
+                // _this.$http.post('/customer',this.customerData).then(function(response){
+                //    // console.log(response);
+                // });
+                this.$store.dispatch('showMessage',{status:true,type:'success',msg:"保存成功"})
             }
         },
         computed:{
-            ...mapGetters({
-                snackBarData:'snackbar',
-            }),
-            snackBar:{
-                get(){
-                    return this.snackBarData;
-                },
-                set(value){
-                    this.$store.commit('changeSnackBar', value)
-                }
-            }
+
         },
         watch:{
             dialogStatus(val){
