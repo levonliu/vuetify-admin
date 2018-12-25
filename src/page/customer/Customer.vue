@@ -39,20 +39,17 @@
             </v-card-title>
         </v-flex>
         <v-flex xs12>
-            <dataTable :queryKeyWord="queryKeyWord" :datagrid="datagrid" :isOperate="isOperate">
-                <template slot="dataHeader" v-if="editAuth || delAuth" slot-scope="title">
-
-                    <th style="border-bottom: 1px solid rgb(198,198,198)">{{title.data}}</th>
+            <dataTable :queryKeyWord="queryKeyWord" :datagrid="datagrid"  :isOperate="isOperate">
+                <template slot="dataTableLastHeader" v-if="editAuth || delAuth" slot-scope="title">
+                    <th class="column">{{title.data}}</th>
                 </template>
-                <template slot="otherColumn" slot-scope="slotProps">
-                    <td class="justify-center layout px-0">
-                        <v-btn icon class="mx-6" @click="edit(slotProps.data)" v-if="editAuth">
+                <template slot="operateColumn" slot-scope="row">
+                        <v-btn icon class="mx-6" @click="edit(row.data)" v-if="editAuth">
                             <v-icon color="teal">edit</v-icon>
                         </v-btn>
-                        <v-btn icon class="mx-6" @click="isDel(slotProps.data.id)" v-if="delAuth">
+                        <v-btn icon class="mx-6" @click="isDel(row.data.id)" v-if="delAuth">
                             <v-icon color="pink">delete</v-icon>
                         </v-btn>
-                    </td>
                 </template>
             </dataTable>
         </v-flex>
@@ -82,12 +79,11 @@
             datagrid    : {
                 url    : '/customer',
                 headers: [
-                    {text: 'ID', value: 'id'},
-                    {text: '姓名', value: 'name'},
-                    {text: '性别', value: 'sex'},
-                    {text: '电话', value: 'tel'},
-                    {text: '住址', value: 'address'},
-                    {text: '组', value: 'level'},
+                    {text: '姓名', value: 'name', field: 'name'},
+                    {text: '性别', value: 'sex_name', field: 'sex'},
+                    {text: '电话', value: 'tel', field: 'tel'},
+                    {text: '住址', value: 'address', field: 'address'},
+                    {text: '等级', value: 'level_name', field: 'level'},
                 ],
             },
             queryKeyWord: '',
@@ -95,7 +91,8 @@
             customerData: {},
             mesDialog   : false,
             delId       : 0,
-            isOperate   : true
+            isShowOrder : true,
+            isOperate   : true,
         }),
 
         methods   : {
@@ -113,7 +110,7 @@
             },
             del() {
                 this.mesDialog = false;
-                this.$store.dispatch('showMessage',{status:true,type:'success',msg:"删除成功"})
+                this.$store.dispatch('showMessage', {status: true, type: 'success', msg: "删除成功"})
             }
         },
         computed  : {

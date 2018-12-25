@@ -21,14 +21,14 @@
                                 <v-select
                                         :items="['男', '女']"
                                         label="性别"
-                                        v-model="customerData.sex"
+                                        v-model="customerData.sex_name"
                                 ></v-select>
                             </v-flex>
                             <v-flex xs12 sm4 md6>
                                 <v-select
-                                        :items="['A', 'B']"
+                                        :items="['普通', 'VIP']"
                                         label="组"
-                                        v-model="customerData.group_name"
+                                        v-model="customerData.level_name"
                                 ></v-select>
                             </v-flex>
                         </v-layout>
@@ -51,34 +51,35 @@
     </v-layout>
 </template>
 <script>
-    export default {
-        props   :{
-            dialogStatus:{type:Boolean},
-            customerData:{type:Object}
-        },
-        data(){
-            return {
-                dialog:false
-            }
-        },
-        methods :{
-            save(){
-                this.dialog   = false;
-                // let _this = this;
-                // _this.$http.post('/customer',this.customerData).then(function(response){
-                //    // console.log(response);
-                // });
-                this.$store.dispatch('showMessage',{status:true,type:'success',msg:"保存成功"})
-            }
-        },
-        computed:{
+    import { customerSave } from '@/api/customer'
 
+    export default {
+        props   : {
+            dialogStatus: {type: Boolean},
+            customerData: {type: Object}
         },
-        watch:{
-            dialogStatus(val){
+        data() {
+            return {
+                dialog: false
+            }
+        },
+        methods : {
+            save() {
+                console.log(this.customerData)
+                // customerSave(this.customerData).then( response => {
+                //     this.$store.dispatch('showMessage', {status: true, type: 'success', msg: "保存成功"})
+                // }).catch( error => {
+                //     reject(error)
+                // })
+                // this.dialog = false;
+            }
+        },
+        computed: {},
+        watch   : {
+            dialogStatus(val) {
                 this.dialog = val;
             },
-            dialog(val){
+            dialog(val) {
                 this.$emit('update:dialogStatus', val)
             }
         }
