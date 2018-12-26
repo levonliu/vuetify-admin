@@ -22,7 +22,6 @@ export default {
          */
         Vue.prototype.$checkAuth = (checkRules)=>{
             const userRules = store.state.app.user.rules;
-
             checkRules.forEach(function (item, index) {
                 checkRules[index] = item.toLowerCase();
             })

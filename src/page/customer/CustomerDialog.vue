@@ -27,7 +27,7 @@
                             <v-flex xs12 sm4 md6>
                                 <v-select
                                         :items="['普通', 'VIP']"
-                                        label="组"
+                                        label="等级"
                                         v-model="customerData.level_name"
                                 ></v-select>
                             </v-flex>
@@ -54,6 +54,7 @@
     import { customerSave } from '@/api/customer'
 
     export default {
+        inject: ['reload'],
         props   : {
             dialogStatus: {type: Boolean},
             customerData: {type: Object}
@@ -65,13 +66,15 @@
         },
         methods : {
             save() {
-                console.log(this.customerData)
-                // customerSave(this.customerData).then( response => {
-                //     this.$store.dispatch('showMessage', {status: true, type: 'success', msg: "保存成功"})
-                // }).catch( error => {
-                //     reject(error)
-                // })
-                // this.dialog = false;
+                customerSave(this.customerData).then( response => {
+                    this.dialog = false
+                    if(response.data.success){
+                        this.$store.dispatch('showMessage', {status: true, type: 'success', msg: "保存成功"})
+                    }
+                }).catch( error => {
+                    reject(error)
+                })
+                this.reload()
             }
         },
         computed: {},

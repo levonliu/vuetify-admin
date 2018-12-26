@@ -1,11 +1,29 @@
 import request from '@/utils/request'
 
 /**
- * 客户列表
+ * 客户新增/编辑
  */
 export const customerSave = (data) => {
+    let url = '/customer'
+    let method = 'post'
+    if(data.id) {
+        url = url+'/'+data.id
+        method = 'patch'
+    }
     return request({
-        url : '/customer'+data.id,
-        method : 'post'
+        url: url,
+        method: method,
+        data: data,
+    })
+}
+
+/**
+ * 客户删
+ * @param data
+ */
+export const customerDel = (id) => {
+    return request({
+        url: '/customer/'+id,
+        method: 'delete',
     })
 }

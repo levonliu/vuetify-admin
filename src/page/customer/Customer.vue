@@ -7,19 +7,19 @@
                         <v-icon>edit</v-icon>
                         <v-icon>close</v-icon>
                     </v-btn>
-                    <v-tooltip top v-if="addAuth">
+                    <v-tooltip top v-if="checkAuth(['customer/create'])">
                         <v-btn fab dark small color="green" slot="activator" @click="add()">
                             <v-icon>add</v-icon>
                         </v-btn>
                         <span>新增</span>
                     </v-tooltip>
-                    <v-tooltip top v-if="uploadAuth">
+                    <v-tooltip top v-if="checkAuth(['customer/upload'])">
                         <v-btn fab dark small color="blue-grey" slot="activator">
                             <v-icon>cloud_upload</v-icon>
                         </v-btn>
                         <span>上传</span>
                     </v-tooltip>
-                    <v-tooltip top v-if="downloadAuth">
+                    <v-tooltip top v-if="checkAuth(['customer/download'])">
                         <v-btn fab dark small color="yellow darken-3" slot="activator">
                             <v-icon>cloud_download</v-icon>
                         </v-btn>
@@ -39,15 +39,12 @@
             </v-card-title>
         </v-flex>
         <v-flex xs12>
-            <dataTable :queryKeyWord="queryKeyWord" :datagrid="datagrid"  :isOperate="isOperate">
-                <template slot="dataTableLastHeader" v-if="editAuth || delAuth" slot-scope="title">
-                    <th class="column">{{title.data}}</th>
-                </template>
+            <dataTable :queryKeyWord="queryKeyWord" :datagrid="datagrid" :isOperate="checkAuth(['customer/update']) || checkAuth(['customer/delete'])">
                 <template slot="operateColumn" slot-scope="row">
-                        <v-btn icon class="mx-6" @click="edit(row.data)" v-if="editAuth">
+                        <v-btn icon class="mx-6" @click="edit(row.data)" v-if="checkAuth(['customer/update'])">
                             <v-icon color="teal">edit</v-icon>
                         </v-btn>
-                        <v-btn icon class="mx-6" @click="isDel(row.data.id)" v-if="delAuth">
+                        <v-btn icon class="mx-6" @click="isDel(row.data.id)" v-if="checkAuth(['customer/delete'])">
                             <v-icon color="pink">delete</v-icon>
                         </v-btn>
                 </template>
@@ -58,9 +55,9 @@
         </v-flex>
         <v-flex xs12>
             <mesDialog :mesDialog="mesDialog" :id="delId" mesHeadText="提示" mesContent="确定要删除该数据？">
-                <template slot-scope="slotProps">
+                <template slot-scope="delData">
                     <v-btn color="blue-grey darken-1" flat @click.native="mesDialog = false">取消</v-btn>
-                    <v-btn color="info darken-1" flat @click.native="del(slotProps.id)">确定</v-btn>
+                    <v-btn color="info darken-1" flat @click.native="del(delData.id)">确定</v-btn>
                 </template>
             </mesDialog>
         </v-flex>
@@ -72,8 +69,11 @@
     import customerDialog from "./CustomerDialog"
     import mesDialog from "../../components/MessageDialog"
 
+    import { customerDel } from '@/api/customer'
+
     export default {
         name: "Customer",
+        inject: ['reload'],
         data: () => ({
             fab         : false,
             datagrid    : {
@@ -91,10 +91,7 @@
             customerData: {},
             mesDialog   : false,
             delId       : 0,
-            isShowOrder : true,
-            isOperate   : true,
         }),
-
         methods   : {
             add() {
                 this.dialog       = true;
@@ -108,27 +105,23 @@
                 this.mesDialog = true;
                 this.delId     = id;
             },
-            del() {
-                this.mesDialog = false;
-                this.$store.dispatch('showMessage', {status: true, type: 'success', msg: "删除成功"})
+            del(id) {
+                customerDel(id).then( response => {
+                    this.mesDialog = false
+                    if(response.data.success){
+                        this.$store.dispatch('showMessage', {status: true, type: 'success', msg: "删除成功"})
+                    }
+                }).catch( error => {
+                    reject(error)
+                })
+                this.reload()
+            },
+            checkAuth(rule){
+                return this.$checkAuth(rule)
             }
         },
         computed  : {
-            addAuth() {
-                return this.$checkAuth(['customer/create']);
-            },
-            uploadAuth() {
-                return this.$checkAuth(['customer/upload']);
-            },
-            downloadAuth() {
-                return this.$checkAuth(['customer/download']);
-            },
-            editAuth() {
-                return this.$checkAuth(['customer/update']);
-            },
-            delAuth() {
-                return this.$checkAuth(['customer/delete']);
-            }
+
         },
         components: {
             dataTable,

@@ -39,7 +39,7 @@
                     <tr>
                         <td :colspan="tdNum">
                             <v-alert :value="true" color="error" icon="warning">
-                                Sorry, nothing to display here :(
+                                Sorry, 没有数据 :(
                             </v-alert>
                         </td>
                     </tr>
@@ -110,6 +110,7 @@
                 this.initHeader();
             },
             initHeader(){
+                this.headers = [{text: 'ID', sortable: false, value: 'order', field: 'id',}]
                 this.headers = this.headers.concat(this.datagrid.headers)
                 if(this.isOperate){
                     this.headers = this.headers.concat([{text: '操作', sortable: false, width: '10', align: 'center'}]);
@@ -186,7 +187,6 @@
             },
             tdNum() {
                 let num = this.headers.length;
-                num     = this.isOperate ? num += 1 : num;
                 return num;
             }
         },
@@ -204,6 +204,9 @@
             },
             queryKeyWord() {
                 this.getList();
+            },
+            isOperate(){
+                this.initHeader()
             }
 
         },
