@@ -3,10 +3,10 @@ import store from '@/store/index'
 import qs from 'qs';
 import router from '../router';
 
-const vConfig = window.global;
+const baseUrl = process.env.VUE_APP_BASE_URL
 
 const service = axios.create({
-    baseURL: vConfig.base_api,
+    baseURL: baseUrl,
     timeout: 5000,
 })
 

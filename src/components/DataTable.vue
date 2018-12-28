@@ -96,7 +96,7 @@
             },
             headers   : [{text: 'ID', sortable: false, value: 'order', field: 'id',}],
             totalItems: 0,
-            pageSizes : [1, 10, 15, 20],
+            pageSizes : [5, 10, 15, 20],
             pageSize  : 10,
         }),
         mounted() {

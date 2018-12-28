@@ -39,7 +39,7 @@
             </v-card-title>
         </v-flex>
         <v-flex xs12>
-            <dataTable :queryKeyWord="queryKeyWord" :datagrid="datagrid" :isOperate="checkAuth(['customer/update']) || checkAuth(['customer/delete'])">
+            <dataTable :queryKeyWord="queryKeyWord" ref="datatable" :datagrid="datagrid" :isOperate="checkAuth(['customer/update']) || checkAuth(['customer/delete'])">
                 <template slot="operateColumn" slot-scope="row">
                         <v-btn icon class="mx-6" @click="edit(row.data)" v-if="checkAuth(['customer/update'])">
                             <v-icon color="teal">edit</v-icon>
@@ -51,7 +51,7 @@
             </dataTable>
         </v-flex>
         <v-flex xs12>
-            <customerDialog :dialogStatus.sync="dialog" :customerData="customerData"></customerDialog>
+            <customerDialog :dialogStatus.sync="dialog" :customerData="customerData" @refresh="refresh"></customerDialog>
         </v-flex>
         <v-flex xs12>
             <mesDialog :mesDialog="mesDialog" :id="delId" mesHeadText="提示" mesContent="确定要删除该数据？">
@@ -73,7 +73,6 @@
 
     export default {
         name: "Customer",
-        inject: ['reload'],
         data: () => ({
             fab         : false,
             datagrid    : {
@@ -114,10 +113,16 @@
                 }).catch( error => {
                     reject(error)
                 })
-                this.reload()
+                let _this = this
+                setTimeout(function() {
+                    _this.refresh()
+                }, 1000)
             },
             checkAuth(rule){
                 return this.$checkAuth(rule)
+            },
+            refresh(){
+                this.$refs.datatable.getList()
             }
         },
         computed  : {

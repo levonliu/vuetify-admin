@@ -8,29 +8,35 @@
                 <v-card-text>
                     <v-container grid-list-md>
                         <v-layout wrap>
-                            <v-flex xs12 sm12 md4>
-                                <v-text-field label="姓名*" required v-model="customerData.name"></v-text-field>
-                            </v-flex>
-                            <v-flex xs12 sm12 md8>
-                                <v-text-field label="电话*" required v-model="customerData.tel"></v-text-field>
-                            </v-flex>
-                            <v-flex xs12 sm12 md12>
-                                <v-text-field label="住址" v-model="customerData.address"></v-text-field>
-                            </v-flex>
-                            <v-flex xs12 sm4 md6>
-                                <v-select
-                                        :items="['男', '女']"
-                                        label="性别"
-                                        v-model="customerData.sex_name"
-                                ></v-select>
-                            </v-flex>
-                            <v-flex xs12 sm4 md6>
-                                <v-select
-                                        :items="['普通', 'VIP']"
-                                        label="等级"
-                                        v-model="customerData.level_name"
-                                ></v-select>
-                            </v-flex>
+                            <v-form ref="customerForm" v-model="valid" lazy-validation>
+                                <v-layout wrap>
+                                    <v-flex xs12 sm12 md4>
+                                        <v-text-field label="姓名*" :rules="nameRules"
+                                                v-model="customerInfo.name"></v-text-field>
+                                    </v-flex>
+                                    <v-flex xs12 sm12 md8>
+                                        <v-text-field label="电话*" :rules="telRules" required
+                                                v-model="customerInfo.tel"></v-text-field>
+                                    </v-flex>
+                                    <v-flex xs12 sm12 md12>
+                                        <v-text-field label="住址" v-model="customerInfo.address"></v-text-field>
+                                    </v-flex>
+                                    <v-flex xs12 sm4 md6>
+                                        <v-select
+                                                :items="['男', '女']"
+                                                label="性别"
+                                                v-model="customerInfo.sex_name"
+                                        ></v-select>
+                                    </v-flex>
+                                    <v-flex xs12 sm4 md6>
+                                        <v-select
+                                                :items="['普通', 'VIP']"
+                                                label="等级"
+                                                v-model="customerInfo.level_name"
+                                        ></v-select>
+                                    </v-flex>
+                                </v-layout>
+                            </v-form>
                         </v-layout>
                     </v-container>
                     <small>*必填项</small>
@@ -51,34 +57,52 @@
     </v-layout>
 </template>
 <script>
-    import { customerSave } from '@/api/customer'
+    import {customerSave} from '@/api/customer'
 
     export default {
-        inject: ['reload'],
         props   : {
             dialogStatus: {type: Boolean},
             customerData: {type: Object}
         },
         data() {
             return {
-                dialog: false
+                customerInfo: {},
+                dialog      : false,
+                valid       : true,
+                nameRules   : [
+                    v => !!v || 'Name is required',
+                    // v => (v && v.length <= 10) || 'Name must be less than 10 characters'
+                ],
+                telRules    : [
+                    v => !!v || 'telephone is required',
+                ]
             }
         },
         methods : {
             save() {
-                customerSave(this.customerData).then( response => {
-                    this.dialog = false
-                    if(response.data.success){
-                        this.$store.dispatch('showMessage', {status: true, type: 'success', msg: "保存成功"})
-                    }
-                }).catch( error => {
-                    reject(error)
-                })
-                this.reload()
+                if(this.$refs.customerForm.validate()) {
+                    customerSave(this.customerInfo).then(response => {
+                        this.dialog = false
+                        if(response.data.success) {
+                            this.$store.dispatch('showMessage', {status: true, type: 'success', msg: "保存成功"})
+                        }
+                    }).catch(error => {
+                        reject(error)
+                    })
+                    let _this = this
+                    setTimeout(function() {
+                        _this.$emit('refresh')
+                    }, 1000)
+                }
             }
         },
         computed: {},
         watch   : {
+            customerData(val) {
+                this.customerInfo            = this.$deepCopy(val);
+                this.customerInfo.sex_name   = this.customerInfo.sex_name ? this.customerInfo.sex_name : '男'
+                this.customerInfo.level_name = this.customerInfo.level_name ? this.customerInfo.level_name : '普通'
+            },
             dialogStatus(val) {
                 this.dialog = val;
             },

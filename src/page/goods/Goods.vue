@@ -1,5 +1,6 @@
 <template>
     <v-container fluid grid-list-md>
+        <goodDetail :openStatus.sync="rightGoodDetailStatus"></goodDetail>
         <v-data-iterator
                 :items="items"
                 :rows-per-page-items="rowsPerPageItems"
@@ -35,11 +36,8 @@
                         </v-list>
                         <v-divider></v-divider>
                         <v-card-actions>
-                            <v-bottom-sheet v-model="sheet">
-                                <v-btn slot="activator" color="lime accent-3" small>编辑</v-btn>
-                                <GoodDetail :sheet="sheet" :data="tiles"></GoodDetail>
-                            </v-bottom-sheet>
-                            <v-btn slot="activator" dark left  small color="teal lighten-2" >删除</v-btn>
+                            <v-btn slot="activator" color="lime accent-3" small @click="edit()">编辑</v-btn>
+                            <v-btn slot="activator" dark left  small color="teal lighten-2" @click="del()">删除</v-btn>
                         </v-card-actions>
                     </v-card>
                 </v-hover>
@@ -49,18 +47,11 @@
 </template>
 
 <script>
-    import GoodDetail from "./GoodDetail"
+    import goodDetail from "./GoodDetail"
     export default {
         name:"Goods",
         data:() => ({
-            sheet:false,
-            tiles:[
-                {img:'keep.png', title:'Keep'},
-                {img:'inbox.png', title:'Inbox'},
-                {img:'hangouts.png', title:'Hangouts'},
-                {img:'messenger.png', title:'Messenger'},
-                {img:'google.png', title:'Google+'}
-            ],
+            rightGoodDetailStatus:false,
             rowsPerPageItems:[4, 8, 12],
             pagination:{
                 rowsPerPage:8
@@ -178,8 +169,15 @@
                 }
             ]
         }),
+        methods:{
+            edit(){
+                this.rightGoodDetailStatus = true
+            },
+            del(){
+            }
+        },
         components:{
-            GoodDetail,
+            goodDetail,
         }
     }
 </script>

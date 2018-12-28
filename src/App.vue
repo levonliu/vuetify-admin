@@ -15,7 +15,4 @@
         /*overflow-y: auto!important;*/
     }
 
-    .v-overlay--active:before {
-        opacity: 0.1!important;
-    }
 </style>

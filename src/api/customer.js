@@ -18,7 +18,7 @@ export const customerSave = (data) => {
 }
 
 /**
- * 客户删
+ * 客户删除
  * @param data
  */
 export const customerDel = (id) => {

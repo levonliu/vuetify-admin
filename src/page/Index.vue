@@ -5,7 +5,7 @@
         <v-content>
             <v-container align-content-space-between align-content-center>
                 <transition name="fade">
-                    <router-view v-if="isRouter"/>
+                    <router-view />
                 </transition>
             </v-container>
         </v-content>
@@ -19,22 +19,8 @@
     import navigation from "../components/layouts/Navigation";
 
     export default {
-        provide(){
-            return {
-                reload:this.reload
-            }
-        },
-        data      : () => ({
-            isRouter:true
-        }),
-        methods   : {
-            reload(){
-                this.isRouter = false
-                this.$nextTick(function() {
-                    this.isRouter = true
-                })
-            }
-        },
+        data      : () => ({}),
+        methods   : {},
         components: {
             topBar,
             'v-footer': Footer,
